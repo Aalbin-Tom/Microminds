@@ -1,5 +1,6 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import UserEdit from './Components/admin/UserEdit';
 import AdminHomeP from './Pages/AdminHomeP';
 import HomeP from './Pages/HomeP';
 import LoginP from './Pages/LoginP';
@@ -18,6 +19,7 @@ function App() {
           <Route path='/signup' element={<SignupP />} />
           <Route path='/login' element={<LoginP />} />
           <Route path='/admin' element={<AdminHomeP />} />
+          <Route path='/admin/single-user/:id' element={<UserEdit />} />
 
         </Routes>
       </Router>

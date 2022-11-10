@@ -105,12 +105,12 @@ const edituser=asyncHandler(async(req,res)=>{
 
 
 const userdetails = asyncHandler(async (req, res) => {
-    const userId = req.body
-    console.log(req.body);
+    const id = req.params.id
+    console.log(req.params.id);
     const users = await User.aggregate([
         {
-            $match: { _id:ObjectId(userId.userId )}
-        },
+            $match: { _id:ObjectId(id)}
+        },       
         {
             $lookup: {
                 from: 'userdetails',
@@ -118,7 +118,7 @@ const userdetails = asyncHandler(async (req, res) => {
                 foreignField: 'userId',
                 as: 'users'
             }
-        }
+        },
     ])
     if (users) {
         res.json({
@@ -129,4 +129,13 @@ const userdetails = asyncHandler(async (req, res) => {
     }
 })
 
-module.exports = { alluser, blockUser, UnblockUser, edituser, userdetails }
+
+
+const deleteuser = asyncHandler(async (req, res) => {
+    const { _id } = req.body
+    console.log(_id);
+    let users = await User.deleteOne({ _id: _id })
+    res.json({ users })
+})
+
+module.exports = { alluser, blockUser, UnblockUser, edituser, userdetails ,deleteuser }

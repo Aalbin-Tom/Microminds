@@ -1,30 +1,49 @@
 import axios from 'axios'
 import React, { useEffect, useReducer, useState } from 'react'
 import Swal from 'sweetalert2';
-import UserEdit from './UserEdit';
-import { MdOutlineDangerous } from 'react-icons/md'
+import { FaUserEdit } from 'react-icons/fa';
+import { MdOutlineDangerous, MdDelete } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 function AdminHome() {
     const [user, setUsers] = useState([])
     const [reducerValue, forceUpdate] = useReducer(x => x + 1, 0)
     const [state, setState] = useState(false)
 
-
+    const navigate = useNavigate();
     const users = async () => {
         const user = await axios.get(`/admin/get-users`)
         setUsers(user.data.users)
     }
-    console.log(user);
 
     useEffect(() => {
-
         users()
-
     }, [reducerValue])
 
 
+
+    const deleteuser = (_id,name) => {
+        try {
+
+            Swal.fire({
+                title: `Do you Want to Delete ${name}?`,
+                showDenyButton: true,
+                confirmButtonText: "yes",
+                denyButtonText: "No",
+                customClass: {
+                    actions: "my-actions",
+                    confirmButton: "order-2",
+                    denyButton: "order-3",
+                },
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await axios.post( "/admin/delete-user",  {_id}  );
+                    forceUpdate()
+                }
+            });
+        } catch (error) { }
+    }
     const BlockUser = (_id) => {
-        console.log(_id);
         try {
 
             Swal.fire({
@@ -75,7 +94,9 @@ function AdminHome() {
         } catch (error) { }
     };
 
-
+    const edituser = (_id) => {
+        navigate(`/admin/single-user/${_id}`)
+    }
 
 
     return (
@@ -99,17 +120,19 @@ function AdminHome() {
                                         <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                             Email
                                         </th>
-                                        
+
                                         <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                             Account Status
                                         </th>
                                         <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                                           Privilage
+                                            Privilage
                                         </th>
                                         <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                             Status
                                         </th>
-
+                                        <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                                            Delete
+                                        </th>
                                         <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                             Manage
                                         </th>
@@ -125,9 +148,9 @@ function AdminHome() {
                                             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                                 {data.email}
                                             </td>
-                                            
+
                                             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                               <span className='rounded px-1 bg-gray-400'> {data.users.length == 0 ? " Not completed" : "completed "}</span>
+                                                <span className='rounded px-1 bg-gray-400'> {data.users.length == 0 ? " Not completed" : "completed "}</span>
                                             </td>
                                             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                                 {data.value.toUpperCase()}
@@ -154,8 +177,11 @@ function AdminHome() {
                                                     </a>
                                                 }
                                             </td>
+                                             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                                                <a onClick={() =>deleteuser(data._id,data.name) } ><MdDelete  size={30}/></a>
+                                            </td>
                                             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                                {data.users.length == 0 ? <MdOutlineDangerous size={30} /> : <UserEdit data={data._id}/> }
+                                                {data.users.length == 0 ? <MdOutlineDangerous size={30} /> : <FaUserEdit size={30} onClick={() => edituser(data._id)} />}
                                             </td>
 
                                         </tr>
