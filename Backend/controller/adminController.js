@@ -77,9 +77,9 @@ const UnblockUser = asyncHandler(async (req, res) => {
 
 
 const edituser=asyncHandler(async(req,res)=>{
-    const { name, email, value, address1, address2, pincode, postoffice, gaurdianname,landmark, userId } = req.body;
-    console.log();
-   const daa =await UserDetail.updateOne({ userId: userId },
+    const { name, value, address1, address2, pincode, postoffice, gaurdianname,landmark, id } = req.body;
+    console.log(req.body);
+   const daa =await UserDetail.updateOne({ userId: id },
         {
             $set: {
                 address1: address1,
@@ -90,17 +90,14 @@ const edituser=asyncHandler(async(req,res)=>{
                 landmark: landmark
             }
         })
-    await User.updateOne({ _id: userId },
+    await User.updateOne({ _id: id },
         {
             $set: {
                 name: name,
-                email: email,
                 value: value,
                
             }
         })
-
-
 })
 
 

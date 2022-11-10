@@ -56,7 +56,6 @@ function Signup() {
 
         if ( email.test(formValues.email) && formValues.name.length !== 0 && formValues.email.length !== 0 && formValues.age.length !== 0 && formValues.value.length !== 0 && formValues.password.length !== 0) {
             try {
-
                 await axios.post(`/signup`, formValues)
                 Swal.fire({
                     position: 'center',
@@ -71,7 +70,6 @@ function Signup() {
                 setMessages(error.response.data.message)
                 console.log(error);
             }
-
         }
     }
 
