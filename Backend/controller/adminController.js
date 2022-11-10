@@ -2,13 +2,14 @@ const User = require('../models/userModel')
 const asyncHandler = require("express-async-handler")
 const generateToken = require('../jwtjson');
 const UserDetail = require('../Models/userDetailsModel');
+const { ObjectID, ObjectId } = require('bson');
 
 
 
 const alluser = asyncHandler(async (req, res) => {
     const users = await User.aggregate([
         {
-            $match: {value:"user" }
+            $match: { value: { $ne: "admin" } }
         },
         {
             $lookup: {
@@ -75,4 +76,57 @@ const UnblockUser = asyncHandler(async (req, res) => {
 })
 
 
-module.exports = { alluser ,blockUser ,UnblockUser}
+const edituser=asyncHandler(async(req,res)=>{
+    const { name, email, value, address1, address2, pincode, postoffice, gaurdianname,landmark, userId } = req.body;
+    console.log();
+   const daa =await UserDetail.updateOne({ userId: userId },
+        {
+            $set: {
+                address1: address1,
+                address2: address2,
+                pincode: pincode,
+                postoffice: postoffice,
+                gaurdianname: gaurdianname,
+                landmark: landmark
+            }
+        })
+    await User.updateOne({ _id: userId },
+        {
+            $set: {
+                name: name,
+                email: email,
+                value: value,
+               
+            }
+        })
+
+
+})
+
+
+const userdetails = asyncHandler(async (req, res) => {
+    const userId = req.body
+    console.log(req.body);
+    const users = await User.aggregate([
+        {
+            $match: { _id:ObjectId(userId.userId )}
+        },
+        {
+            $lookup: {
+                from: 'userdetails',
+                localField: '_id',
+                foreignField: 'userId',
+                as: 'users'
+            }
+        }
+    ])
+    if (users) {
+        res.json({
+            users
+        })
+    } else {
+        throw new Error('No data in db ')
+    }
+})
+
+module.exports = { alluser, blockUser, UnblockUser, edituser, userdetails }

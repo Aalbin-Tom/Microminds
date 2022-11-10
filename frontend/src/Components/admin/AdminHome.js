@@ -1,7 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useReducer, useState } from 'react'
 import Swal from 'sweetalert2';
-
+import UserEdit from './UserEdit';
+import { MdOutlineDangerous } from 'react-icons/md'
 
 function AdminHome() {
     const [user, setUsers] = useState([])
@@ -83,7 +84,7 @@ function AdminHome() {
                 <h1 >USER DETAILS</h1>
             </div>
             <div className="flex flex-col h-auto">
-                <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="overflow-x-auto sm:-mx-6 lg:mx-8">
                     <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                         <div className="overflow-hidden">
                             <table className="min-w-full">
@@ -101,6 +102,9 @@ function AdminHome() {
                                         
                                         <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                             Account Status
+                                        </th>
+                                        <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                                           Privilage
                                         </th>
                                         <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                             Status
@@ -123,7 +127,10 @@ function AdminHome() {
                                             </td>
                                             
                                             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                               <span className='rounded px-1 bg-rose-400'> {data.users.length == 0 ? " Not completed" : "completed "}</span>
+                                               <span className='rounded px-1 bg-gray-400'> {data.users.length == 0 ? " Not completed" : "completed "}</span>
+                                            </td>
+                                            <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                                                {data.value.toUpperCase()}
                                             </td>
                                             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                                 {data.status ? <a
@@ -146,6 +153,9 @@ function AdminHome() {
                                                         Unblock
                                                     </a>
                                                 }
+                                            </td>
+                                            <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                                                {data.users.length == 0 ? <MdOutlineDangerous size={30} /> : <UserEdit data={data._id}/> }
                                             </td>
 
                                         </tr>

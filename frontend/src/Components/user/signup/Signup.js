@@ -22,6 +22,7 @@ function Signup() {
     const options = [
         { value: 'user', label: 'User' },
         { value: 'admin', label: 'Admin' },
+        { value: 'premium', label: 'Premium' },
     ]
 
     const navigate = useNavigate();
