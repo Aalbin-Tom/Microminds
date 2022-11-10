@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const asyncHandler = require("express-async-handler")
 const generateToken = require('../jwtjson');
+const UserDetail = require('../Models/userDetailsModel');
 
 
 
@@ -56,7 +57,7 @@ const authUser = asyncHandler(async (req, res) => {
                     email: user.email,
                     isAdmin: "false",
                     age: user.age,
-                     token: generateToken(user._id)
+                    token: generateToken(user._id)
                 })
             } else {
                 res.json({
@@ -68,25 +69,40 @@ const authUser = asyncHandler(async (req, res) => {
                     token: generateToken(user._id)
                 })
             }
-            // res.json({
-            //     _id: user._id,
-            //     name: user.name,
-            //     email: user.email,
-            //     isAdmin: "false",
-            //     age:user.age,
-            //     type: user.type,
-            //     token: generateToken(user._id)
-            // })
+
         } else {
             res.status(400)
             throw new Error("Invalid Email or Password")
         }
     } else {
-        throw new Error(' ACCOUNT  IS  BLOCKED ')
+        throw new Error(' ACCOUNT IS BLOCKED CONTACT ADMIN ')
     }
 
 })
 
+const userdetails = asyncHandler(async (req, res) => {
+    const { formValues, userId } = req.body;
+    console.log(formValues);
+    const user = await UserDetail.findOne({userId:userId})
+    if (!user) {
+        const userdetail = await UserDetail.create({
+            address1: formValues.address1,
+            address2: formValues.address2,
+            pincode: formValues.pincode,
+            postoffice: formValues.postoffice,
+            gaurdianname: formValues.gaurdianname,
+            landmark: formValues.landmark,
+            userId: userId
+        })
+    }else{
+        const userdetail = await UserDetail.updateOne({ userId: userId }, 
+            { $set: { address1: formValues.address1,
+                address2: formValues.address2,
+                pincode: formValues.pincode,
+                postoffice: formValues.postoffice,
+                gaurdianname: formValues.gaurdianname,
+                landmark: formValues.landmark } })
+    }
+})
 
-
-module.exports = { registerUser, authUser }
+module.exports = { registerUser, authUser, userdetails }

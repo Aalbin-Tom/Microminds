@@ -98,9 +98,14 @@ function AdminHome() {
                                         <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                             Email
                                         </th>
+                                        
                                         <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                                            Contact
+                                            Account Status
                                         </th>
+                                        <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                                            Status
+                                        </th>
+
                                         <th scope="col" className="text-sm font-bold text-gray-900 px-6 py-4 text-left">
                                             Manage
                                         </th>
@@ -116,8 +121,9 @@ function AdminHome() {
                                             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                                 {data.email}
                                             </td>
+                                            
                                             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                                {data.phone}
+                                               <span className='rounded px-1 bg-rose-400'> {data.users.length == 0 ? " Not completed" : "completed "}</span>
                                             </td>
                                             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                                 {data.status ? <a

@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 function Signup() {
 
 
-    const initialValues = { email: "", password: "", name: "", type: "", age: "" };
+    const initialValues = { email: "", password: "", name: "", value: "", age: "" };
     const [formValues, setFormValues] = useState(initialValues);
     const [message, setMessages] = useState('')
     const [error, setError] = useState(false)
@@ -49,11 +49,11 @@ function Signup() {
         else {
             setMessages("")
         }
-        if (formValues.name.length === 0  && !email.test(formValues.email) && formValues.email.length === 0 && formValues.type.length === 0 && formValues.age.length === 0 && formValues.password.length === 0) {
+        if (formValues.name.length === 0  && !email.test(formValues.email) && formValues.email.length === 0 && formValues.value.length === 0 && formValues.age.length === 0 && formValues.password.length === 0) {
             setError("true")
         }
 
-        if ( email.test(formValues.email) && formValues.name.length !== 0 && formValues.email.length !== 0 && formValues.age.length !== 0 && formValues.type.length !== 0 && formValues.password.length !== 0) {
+        if ( email.test(formValues.email) && formValues.name.length !== 0 && formValues.email.length !== 0 && formValues.age.length !== 0 && formValues.value.length !== 0 && formValues.password.length !== 0) {
             try {
 
                 await axios.post(`/signup`, formValues)
@@ -136,7 +136,7 @@ function Signup() {
                                 <label style={{ color: "red" }} >Password cannot be empty </label> : ""}</span>
                             <br />
 
-                            <select name='type' onChange={handleChange} className='rounded-full bg-blue-200 mt-2 p-2  focus:outline-green-400 required:selection:'>
+                            <select name='value' onChange={handleChange} className='rounded-full bg-blue-200 mt-2 p-2  focus:outline-green-400 required:selection:'>
                                 <option >
                                     select a value
                                 </option>
@@ -147,7 +147,7 @@ function Signup() {
                                     </option>
                                 ))}
 
-                            </select><span>{error && formValues.type.length <= 0 ?
+                            </select><span>{error && formValues.value.length <= 0 ?
                                 <label style={{ color: "red" }} >select any</label> : ""}</span><br />
                         </div>
 

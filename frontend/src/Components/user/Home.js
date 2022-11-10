@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 function Home() {
 
     const [user, setUser] = useState('')
-    console.log(user);
+    const userId = user._id
     const initialValues = { address1: "", address2: "", landmark: "", postoffice: "", pincode: "", gaurdianname: "" };
     const [formValues, setFormValues] = useState(initialValues);
     const [message, setMessages] = useState('')
@@ -20,6 +20,7 @@ function Home() {
     const handleChange = (e) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
+    console.log(formValues);
 
     const navigate = useNavigate();
 
@@ -39,20 +40,12 @@ function Home() {
         if (formValues.address1.length === 0 && formValues.address2.length === 0 && formValues.landmark.length === 0 && formValues.postoffice.length === 0 && formValues.pincode.length === 0 && formValues.gaurdianname.length === 0) {
             setError("true")
         }
-        // address1: "", address2: "", landmark: "", postoffice: "", pincode: "", gaurdianname: ""
+
         if (formValues.address1.length !== 0 && formValues.address2.length !== 0 && formValues.landmark.length !== 0 && formValues.postoffice.length !== 0 && formValues.pincode.length !== 0 && formValues.gaurdianname.length !== 0) {
             try {
 
-                await axios.post(`/add-details`, formValues)
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Sucessfully Signed In',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                navigate('/login')
-                console.log();
+                await axios.post(`/user-detail`, { formValues, userId })
+                setFormValues(initialValues)
             } catch (error) {
                 setMessages(error.response.data.message)
                 console.log(error);
@@ -87,34 +80,21 @@ function Home() {
                                 name='name'
                             />
                         </div>
-                        {/* </textarea> */}
                         <br />
                         <span className='flex font-bold justify-center text-red-500'>{message}</span>
 
                         <div className='flex flex-col text-grey-500 py-2'>
-                            {/* <div className='flex gap-3'>
-                                <input className=' rounded-sm bg-blue-200 mt-2 p-2 focus:border-blue-500 focus:bg-grey-800 focus:outline-green-400'
-                                    placeholder='Name'
-                                    type="text"
-                                    name='name'
-                                    value={formValues.name}
-                                    onChange={handleChange}
+                            <div className='flex gap-3'>
+                                <input disabled className=' rounded-sm bg-gray-200 mt-2 p-2'
+                                    placeholder={user.name}
                                 />
-                                <span className='flex flex-col'>{error && formValues.name.length <= 0 ?
-                                    <label style={{ color: "red" }} >Name cannot be empty </label> : ""}</span>
                                 <br />
 
-                                <input className=' rounded-sm bg-blue-200 mt-2 p-2 focus:border-blue-500 focus:bg-grey-800 focus:outline-green-400'
-                                    placeholder='Email'
-                                    type="email"
-                                    name='email'
-                                    value={formValues.email}
-                                    onChange={handleChange}
+                                <input disabled className=' rounded-sm bg-gray-200 mt-2 p-2'
+                                    placeholder={user.email}
                                 />
-                                <span>{error && formValues.address2.length <= 0 ?
-                                    <label style={{ color: "red" }} >Email cannot be empty </label> : ""}</span>
                                 <br />
-                            </div> */}
+                            </div>
                             <div className='flex gap-3'>
                                 <input className=' rounded-sm bg-blue-200 mt-2 p-2 focus:border-blue-500 focus:bg-grey-800 focus:outline-green-400'
                                     placeholder='Address 1'
@@ -122,7 +102,7 @@ function Home() {
                                     name='address1'
                                     value={formValues.address1}
                                     onChange={handleChange}
-                                /><span>{error && formValues.address1.length <= 0 ?
+                                /><span className='flex flex-col'>{error && formValues.address1.length <= 0 ?
                                     <label style={{ color: "red" }} >Address 1 cannot be empty </label> : ""}</span>
                                 <br />
 
@@ -175,7 +155,7 @@ function Home() {
                                 <br />
 
                                 <input className='rounded-sm bg-blue-200 mt-2 p-2 focus:border-red-500 focus:bg-grey-800 focus:outline-green-400'
-                                    placeholder='Gaurdian  name'
+                                    placeholder='Gaurdian Name'
                                     type="text"
                                     name='gaurdianname'
                                     value={formValues.gaurdianname}
@@ -189,7 +169,7 @@ function Home() {
                         </div>
 
                         <div className='flex gap-5 justify-center text-gray-500 py-2'>
-                            <button className=' w-sm  px-12 py-2.5 bg-green-600 text-white  leading-tight text-xl font-bold rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out  shadow-green-600/50 '>
+                            <button onSubmit={handleSubmit} className=' w-sm  px-12 py-2.5 bg-green-600 text-white  leading-tight text-xl font-bold rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out  shadow-green-600/50 '>
                                 submit
                             </button>
                             <button onClick={logout} className=' w-sm  px-12 py-2.5 bg-green-600 text-white  leading-tight text-xl font-bold rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out  shadow-green-600/50 '>
