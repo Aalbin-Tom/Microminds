@@ -25,7 +25,7 @@ function Home() {
     const handleChange = (e) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
-    console.log(user);
+    console.log(formValues);
 
     const navigate = useNavigate();
 
@@ -79,8 +79,8 @@ function Home() {
                     >
                         <div className='flex justify-center gap-5 '>
                             <h1 className='font-bold text-center text-2xl '>{user.name}</h1>
-                            <input disabled className='flex justify-end rounded-sm bg-gray-200 w-36 focus:border-blue-500 focus:bg-grey-800'
-                                placeholder={user.isAdmin === "true" ? "Privillage : Admin" : `Privillage : ${user.value}`}
+                            <input disabled className='flex justify-end rounded-sm bg-gray-200 w-32 focus:border-blue-500 focus:bg-grey-800'
+                                placeholder={user.isAdmin === "true" ? "Privillage : Admin" : "Privillage : User"}
                                 type="text"
                                 name='name'
                             />

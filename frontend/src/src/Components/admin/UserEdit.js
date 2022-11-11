@@ -123,7 +123,7 @@ function UserEdit() {
                                             </div>
                                             <br />
                                             <div>
-                                                <select value={value} name='value' onChange={(e) => setValue(e.target.value)} className='rounded-full bg-blue-200 mt-2 p-2  focus:outline-green-400 required:selection:'>
+                                                <select name='value' onChange={(e) => setValue(e.target.value)} className='rounded-full bg-blue-200 mt-2 p-2  focus:outline-green-400 required:selection:'>
                                                     <option >
                                                         select a value
                                                     </option>

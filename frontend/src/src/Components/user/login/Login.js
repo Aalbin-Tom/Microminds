@@ -31,7 +31,7 @@ function Login() {
             try {
                 const { data } = await axios.post(`/login`, formValues)
                 localStorage.setItem('loginInfo', JSON.stringify(data))
-                if (data.isAdmin === "true") {
+                if (data.isAdmin ==="true") {
                     navigate('/admin')
                 } else {
                     navigate('/')
@@ -103,7 +103,7 @@ function Login() {
                     <Link to="/signup">
                         Dont have an account? <span className='text-green-600'>Sign Up</span>
                     </Link>
-
+                   
                 </div>
             </form>
         </div>

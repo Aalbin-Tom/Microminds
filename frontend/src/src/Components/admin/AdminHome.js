@@ -102,7 +102,7 @@ function AdminHome() {
         localStorage.removeItem("loginInfo")
         navigate(`/login`)
     }
-
+    
 
     return (
         <div className='h-screen'>

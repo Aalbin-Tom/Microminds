@@ -50,11 +50,11 @@ function Signup() {
         else {
             setMessages("")
         }
-        if (formValues.name.length === 0 && !email.test(formValues.email) && formValues.email.length === 0 && formValues.value.length === 0 && formValues.age.length === 0 && formValues.password.length === 0) {
+        if (formValues.name.length === 0  && !email.test(formValues.email) && formValues.email.length === 0 && formValues.value.length === 0 && formValues.age.length === 0 && formValues.password.length === 0) {
             setError("true")
         }
 
-        if (email.test(formValues.email) && formValues.name.length !== 0 && formValues.email.length !== 0 && formValues.age.length !== 0 && formValues.value.length !== 0 && formValues.password.length !== 0) {
+        if ( email.test(formValues.email) && formValues.name.length !== 0 && formValues.email.length !== 0 && formValues.age.length !== 0 && formValues.value.length !== 0 && formValues.password.length !== 0) {
             try {
                 await axios.post(`/signup`, formValues)
                 Swal.fire({
